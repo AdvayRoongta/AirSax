@@ -20,11 +20,11 @@ count=0
 def check(note):
     global path
     global playobj
-    if path!=(f"notes/{note}.wav"):
+    if path!=(f"{note}.wav"):
         if not isinstance(playobj, str) and playobj.is_playing():
             playobj.stop() #stop
           #  time.sleep(0.25)
-    path=f"notes/{note}.wav"
+    path=f"{note}.wav"
     wave_obj = sa.WaveObject.from_wave_file(path)
     playobj = wave_obj.play()
 def ot():
@@ -71,20 +71,20 @@ while True:
         if pressed==[1,2]:
             cv2.putText(image, "a", (150, 150), cv2.FONT_HERSHEY_SIMPLEX, 3, (0, 255, 0), 4, cv2.LINE_AA) #a
             if path!="":
-                if path!="notes/a.wav":
+                if path!="a.wav":
                     if not isinstance(playobj, str) and playobj.is_playing():
                         playobj.stop()
                      #   time.sleep(0.25)
-            path="notes/a.wav"
+            path="a.wav"
             wave_obj = sa.WaveObject.from_wave_file(path)
             playobj = wave_obj.play()
         if pressed==[2]:
             cv2.putText(image, "c", (150, 150), cv2.FONT_HERSHEY_SIMPLEX, 3, (0, 255, 0), 4, cv2.LINE_AA)
-            if path!="notes/c.wav":
+            if path!="c.wav":
                         if not isinstance(playobj, str) and playobj.is_playing():
                             playobj.stop() #stop
                            # time.sleep(0.25)
-            path="notes/c.wav"
+            path="c.wav"
             wave_obj = sa.WaveObject.from_wave_file(path)
             playobj = wave_obj.play()
         if pressed==[1,2,3]:
@@ -92,7 +92,7 @@ while True:
 
             check("g")
         if pressed==[1,2,3,4,5,6]:
-            cv2.putText(image, "d", (150, 150), cv2.FONT_HERSHEY_SIMPLEX, 3, (0, 255, 0), 4, cv2.LINE_AA)          #  d, s = sf.read("notes/d.wav")
+            cv2.putText(image, "d", (150, 150), cv2.FONT_HERSHEY_SIMPLEX, 3, (0, 255, 0), 4, cv2.LINE_AA)          #  d, s = sf.read("d.wav")
             check("d")
         if pressed==[1,2,3,4]:
             cv2.putText(image, "f", (150, 150), cv2.FONT_HERSHEY_SIMPLEX, 3, (0, 255, 0), 4, cv2.LINE_AA)
@@ -117,11 +117,11 @@ while True:
         if pressed==[2,9]:
             cv2.putText(image, "c", (150, 150), cv2.FONT_HERSHEY_SIMPLEX, 3, (0, 255, 0), 4, cv2.LINE_AA)
             ot()
-            if path!="notes/highc.wav":
+            if path!="highc.wav":
                         if not isinstance(playobj, str):
                             playobj.stop() #stop
                             time.sleep(0.25)
-            path="notes/highc.wav"
+            path="highc.wav"
             wave_obj = sa.WaveObject.from_wave_file(path)
             playobj = wave_obj.play()
         if pressed==[1,2,3,9]:
@@ -129,7 +129,7 @@ while True:
             check("highg")
             ot()
         if pressed==[1,2,3,9,4,5,6]:
-            cv2.putText(image, "d", (150, 150), cv2.FONT_HERSHEY_SIMPLEX, 3, (0, 255, 0), 4, cv2.LINE_AA)          #  d, s = sf.read("notes/d.wav")
+            cv2.putText(image, "d", (150, 150), cv2.FONT_HERSHEY_SIMPLEX, 3, (0, 255, 0), 4, cv2.LINE_AA)          #  d, s = sf.read("d.wav")
             check("highd")
             ot()
         if pressed==[1,2,3,4,9]:
