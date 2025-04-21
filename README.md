@@ -15,4 +15,8 @@ I built it entirely in python too
 
 # History
 I was originally going to make a face anyonyomizer 😀, however, since this was my first CV project I didnt realize how simple that would be. I randomly had the idea to make a saxophone while talking to @karthik
+
+# Built with:
+OpenCV, Python, Mediapipe, and the tenor sax my school gave me
+
  
