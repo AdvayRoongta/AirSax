@@ -1,7 +1,7 @@
 import sys
 import os
 import streamlit as st
-import cv2
+import opencv-python
 import mediapipe as mp
 import simpleaudio as sa
 import time
