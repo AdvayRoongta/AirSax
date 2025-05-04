@@ -1,15 +1,12 @@
 import sys
 import os
 import streamlit as st
-import opencv-python
+import cv2
 import mediapipe as mp
 import simpleaudio as sa
 import time
 
-# Suppress all terminal output (e.g., warnings, logs)
 sys.stdout = open(os.devnull, 'w')
-
-# MediaPipe and OpenCV Setup
 mp_drawing = mp.solutions.drawing_utils
 mp_hands = mp.solutions.hands
 cap = cv2.VideoCapture(0)
@@ -21,7 +18,6 @@ pressed = []
 playobj = "sigma"
 path = "sfd"
 count = 0
-
 def check(note):
     global path
     global playobj
@@ -33,14 +29,10 @@ def check(note):
     playobj = wave_obj.play()
 
 def ot():
-    # Octave function to display 'Octave' text
     return "Octave"
 
-# Streamlit interface setup
 st.title("Hand Gesture Music Player")
 st.write("Use hand gestures to play different notes.")
-
-# Capture frame and process it in real-time
 while True:
     success, image = cap.read()
     image = cv2.cvtColor(cv2.flip(image, 1), cv2.COLOR_BGR2RGB)
@@ -52,7 +44,6 @@ while True:
             mp_drawing.draw_landmarks(image, landmark, mp_hands.HAND_CONNECTIONS)
             hand = handedness.classification[0].label
 
-            # Logic for hand gestures and playing notes based on finger positions
             if hand.lower() == "left":
                 if landmark.landmark[8].y > landmark.landmark[6].y:
                     pressed.append(1)
@@ -74,7 +65,6 @@ while True:
             if not isinstance(playobj, str) and playobj.is_playing():
                 playobj.stop()
 
-        # Display and check notes
         if pressed == [1]:
             st.text("b")
             check("b")
@@ -100,7 +90,6 @@ while True:
             st.text("f#")
             check("fsharp")
 
-        # Display octave message
         if pressed == [1, 9]:
             st.text("b (High Octave)")
             check("highb")
@@ -111,9 +100,5 @@ while True:
             st.text(ot())
 
         pressed = []
-
-    # Show frame as an image in Streamlit
     st.image(image, channels="BGR", use_column_width=True)
-
-# Reset the terminal output to the default
     sys.stdout = sys.__stdout__
