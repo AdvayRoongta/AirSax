@@ -1,7 +1,0 @@
-Dependencies:
-Opencv cv2
-mediapipe
-simpleaudio
-soundfile
-sys
-time
