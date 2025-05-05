@@ -2,3 +2,6 @@ opencv-python
 simpleaudio
 mediapipe
 streamlit
+time
+os
+sys
