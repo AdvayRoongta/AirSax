@@ -55,7 +55,6 @@ rpds-py==0.24.0
 scipy==1.13.1
 sentencepiece==0.2.0
 simpleaudio==1.0.4
-six @ file:///AppleInternal/Library/BuildRoots/bcce998f-ff34-11ef-9d34-f2a857e00a32/Library/Caches/com.apple.xbs/Sources/python3/six-1.15.0-py2.py3-none-any.whl
 smmap==5.0.2
 sounddevice==0.5.1
 soundfile==0.13.1
