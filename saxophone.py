@@ -98,7 +98,13 @@ while True:
             st.text("a (High Octave)")
             check("higha")
             st.text(ot())
+        if pressed == [1, 2, 9]:
+            st.text("g (High Octave)")
+            check("higha")
+            st.text(ot())
+       
 
+       
         pressed = []
     st.image(image, channels="BGR", use_column_width=True)
     sys.stdout = sys.__stdout__
