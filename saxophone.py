@@ -98,7 +98,7 @@ while True:
             st.text("a (High Octave)")
             check("higha")
             st.text(ot())
-        if pressed == [1, 2, 9]:
+        if pressed == [1, 2, 9, 3]:
             st.text("g (High Octave)")
             check("higha")
             st.text(ot())
