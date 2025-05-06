@@ -5,7 +5,7 @@ import numpy as np
 
 mp_hands = mp.solutions.hands
 hands = mp_hands.Hands(static_image_mode=True, max_num_hands=2)
-st.title("Gesture-Based Note Detector")
+st.title("Saxophone")
 
 uploaded_image = st.camera_input("Take a picture of your hand to detect the note")
 
