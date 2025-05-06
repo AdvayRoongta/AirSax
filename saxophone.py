@@ -18,6 +18,7 @@ pressed = []
 playobj = "sigma"
 path = "sfd"
 count = 0
+
 def check(note):
     global path
     global playobj
@@ -33,11 +34,16 @@ def ot():
 
 st.title("Hand Gesture Music Player")
 st.write("Use hand gestures to play different notes.")
+
+# Create a placeholder for the current note at the top of the page
+note_placeholder = st.empty()
+
+current_note = ""
+
 while True:
     success, image = cap.read()
     image = cv2.cvtColor(cv2.flip(image, 1), cv2.COLOR_BGR2RGB)
     results = hands.process(image)
-    image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
     if results.multi_hand_landmarks and results.multi_handedness:
         for landmark, handedness in zip(results.multi_hand_landmarks, results.multi_handedness):
@@ -66,45 +72,42 @@ while True:
                 playobj.stop()
 
         if pressed == [1]:
-            st.text("b")
+            current_note = "b"
             check("b")
         elif pressed == [1, 2]:
-            st.text("a")
+            current_note = "a"
             check("a")
         elif pressed == [2]:
-            st.text("c")
+            current_note = "c"
             check("c")
         elif pressed == [1, 2, 3]:
-            st.text("g")
+            current_note = "g"
             check("g")
         elif pressed == [1, 2, 3, 4, 5, 6]:
-            st.text("d")
+            current_note = "d"
             check("d")
         elif pressed == [1, 2, 3, 4]:
-            st.text("f")
+            current_note = "f"
             check("f")
         elif pressed == [1, 2, 3, 4, 5]:
-            st.text("e")
+            current_note = "e"
             check("e")
         elif pressed == [1, 2, 3, 5]:
-            st.text("f#")
+            current_note = "f#"
             check("fsharp")
 
         if pressed == [1, 9]:
-            st.text("b (High Octave)")
+            current_note = "b (High Octave)"
             check("highb")
-            st.text(ot())
         if pressed == [1, 2, 9]:
-            st.text("a (High Octave)")
+            current_note = "a (High Octave)"
             check("higha")
-            st.text(ot())
         if pressed == [1, 2, 9, 3]:
-            st.text("g (High Octave)")
+            current_note = "g (High Octave)"
             check("higha")
-            st.text(ot())
-       
 
-       
         pressed = []
-    st.image(image, channels="BGR", use_column_width=True)
+
+    # Update the current note in the placeholder
+    note_placeholder.text(f"Current Note: {current_note}")
     sys.stdout = sys.__stdout__
