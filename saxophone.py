@@ -1,53 +1,24 @@
-import sys
-import os
 import streamlit as st
 import cv2
 import mediapipe as mp
-import simpleaudio as sa
-import time
+import numpy as np
 
-sys.stdout = open(os.devnull, 'w')
-mp_drawing = mp.solutions.drawing_utils
 mp_hands = mp.solutions.hands
-cap = cv2.VideoCapture(0)
-cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
-cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
-hands = mp_hands.Hands(max_num_hands=2)
+hands = mp_hands.Hands(static_image_mode=True, max_num_hands=2)
+st.title("Gesture-Based Note Detector")
 
-pressed = []
-playobj = "sigma"
-path = "sfd"
-count = 0
+uploaded_image = st.camera_input("Take a picture of your hand to detect the note")
 
-def check(note):
-    global path
-    global playobj
-    if path != (f"{note}.wav"):
-        if not isinstance(playobj, str) and playobj.is_playing():
-            playobj.stop()  # stop
-    path = f"{note}.wav"
-    wave_obj = sa.WaveObject.from_wave_file(path)
-    playobj = wave_obj.play()
-
-def ot():
-    return "Octave"
-
-st.title("Hand Gesture Music Player")
-st.write("Use hand gestures to play different notes.")
-
-# Create a placeholder for the current note at the top of the page
 note_placeholder = st.empty()
 
-current_note = ""
+def detect_note_from_image(image):
+    pressed = []
 
-while True:
-    success, image = cap.read()
-    image = cv2.cvtColor(cv2.flip(image, 1), cv2.COLOR_BGR2RGB)
-    results = hands.process(image)
+    image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    results = hands.process(image_rgb)
 
     if results.multi_hand_landmarks and results.multi_handedness:
         for landmark, handedness in zip(results.multi_hand_landmarks, results.multi_handedness):
-            mp_drawing.draw_landmarks(image, landmark, mp_hands.HAND_CONNECTIONS)
             hand = handedness.classification[0].label
 
             if hand.lower() == "left":
@@ -67,47 +38,38 @@ while True:
                 if landmark.landmark[16].y > landmark.landmark[14].y:
                     pressed.append(6)
 
-        if pressed == []:
-            if not isinstance(playobj, str) and playobj.is_playing():
-                playobj.stop()
-
+        note = ""
         if pressed == [1]:
-            current_note = "b"
-            check("b")
+            note = "b"
         elif pressed == [1, 2]:
-            current_note = "a"
-            check("a")
+            note = "a"
         elif pressed == [2]:
-            current_note = "c"
-            check("c")
+            note = "c"
         elif pressed == [1, 2, 3]:
-            current_note = "g"
-            check("g")
+            note = "g"
         elif pressed == [1, 2, 3, 4, 5, 6]:
-            current_note = "d"
-            check("d")
+            note = "d"
         elif pressed == [1, 2, 3, 4]:
-            current_note = "f"
-            check("f")
+            note = "f"
         elif pressed == [1, 2, 3, 4, 5]:
-            current_note = "e"
-            check("e")
+            note = "e"
         elif pressed == [1, 2, 3, 5]:
-            current_note = "f#"
-            check("fsharp")
+            note = "f#"
+        elif pressed == [1, 9]:
+            note = "b (High Octave)"
+        elif pressed == [1, 2, 9]:
+            note = "a (High Octave)"
+        elif pressed == [1, 2, 9, 3]:
+            note = "g (High Octave)"
 
-        if pressed == [1, 9]:
-            current_note = "b (High Octave)"
-            check("highb")
-        if pressed == [1, 2, 9]:
-            current_note = "a (High Octave)"
-            check("higha")
-        if pressed == [1, 2, 9, 3]:
-            current_note = "g (High Octave)"
-            check("higha")
+        return note if note else "No note"
+    else:
+        return "No hand detected"
 
-        pressed = []
+if uploaded_image is not None:
+    image_bytes = uploaded_image.getvalue()
+    file_bytes = np.asarray(bytearray(image_bytes), dtype=np.uint8)
+    image = cv2.imdecode(file_bytes, 1)
 
-    # Update the current note in the placeholder
-    note_placeholder.text(f"Current Note: {current_note}")
-    sys.stdout = sys.__stdout__
+    note = detect_note_from_image(image)
+    note_placeholder.markdown(f"### 🎵 {note}")
