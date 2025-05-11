@@ -20,3 +20,4 @@ I was originally going to make a face anyonyomizer 😀, however, since this was
 OpenCV, Python, Mediapipe, and the tenor sax my school gave me
 
  
+NOTE: The current python file is optimized for streamlit. I did this because of the Visioneer rules and is not my actual project, the project is in the real.py file.
